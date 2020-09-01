@@ -1,17 +1,4 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import './App.css';
-import Header from './Header';
-import FolderList from './FolderList';
-import NoteList from './NoteList';
-import Note from './Note';
-import GoBack from './GoBack';
-import FilteredFolder from './FilteredFolder';
-
-
-
-class App extends React.Component {
-  state = {
+export default {
     "folders": [
       {
         "id": "b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1",
@@ -127,36 +114,3 @@ class App extends React.Component {
       }
     ]
   }
-
-  render() {
-    return (
-      <div className="App">
-        <header>
-          <Route path='/' component={Header} />
-        </header>
-        <main>
-          <div className="sidebar">
-            <Route path='/notes/' component={GoBack} />
-            <Route path='/folder/' component={GoBack} />
-            <Route path='/' render={(props) => {
-             return <FolderList {...props} state={this.state}/>
-            }} />
-          </div>
-          <div className="content-module">
-            <Switch>
-              <Route exact path='/' render={(props) => {
-                return <NoteList {...props} state={this.state} />
-              }} />
-              <Route path='/folder/:folder_id/' render={(props) => {
-                return <FilteredFolder {...props} state={this.state}/>
-                }} />
-              <Route path='/notes/:note_id' render={(props) => Note(props, this.state)} />
-            </Switch>
-          </div>
-        </main>
-      </div>
-    );
-  }
-}
-
-export default App;
