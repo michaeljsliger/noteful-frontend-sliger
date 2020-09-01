@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import dummyStore from './dummy-store';
+import format from 'date-fns/format'
 
 function Note(props, state) {
     const note = state.notes.find(el => {
@@ -9,17 +8,18 @@ function Note(props, state) {
     const fileName = state.folders.find(el => {
         return note.folderId === el.id
     }).name
+    const timeObj1 = new Date(note.modified)
 
     return (
         <div className="a-note">
             <h3>
                 {note.name}
             </h3>
-            <h6>{fileName}</h6>
+            <h6>In file > {fileName}</h6>
+            <h6>Modified {format(timeObj1, 'd MMM yyyy')}</h6>
             <p>{note.content}</p>
         </div>
     )
-
 }
 
 export default Note;
