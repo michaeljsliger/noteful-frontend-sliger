@@ -1,30 +1,41 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import NoteContext from './NoteContext';
 
-function FilteredFolder(props){
+class FilteredFolder extends React.Component {
 
-        const filtered = props.state.notes.filter(el => {
-            return el.folderId === props.match.params.folder_id
-        });
+  render() {
 
-        const folderName = props.state.folders.find(el => {
-            return el.id === props.match.params.folder_id
-        }).name
 
-        const filteredFolder = filtered.map((el, index) => {
+    const filtered = (context) => context.notes.filter(el => {
+      return el.folderId === this.props.match.params.folder_id
+    });
+
+    const folderName = (context) => context.state.folders.find(el => {
+      return el.id === this.props.match.params.folder_id
+    }).name
+
+    const filteredFolder = (filtered) => filtered.map((el, index) => {
+      return (
+        <Link key={index} to={`/notes/${el.id}`} className="note-link-embed"><div className="note-link" key={el.id}>{el.name}</div></Link>
+      )
+    })
+
+
+    return (
+      <NoteContext.Consumer>
+        {context => {
           return (
-            <Link key={index} to={`/notes/${el.id}`} className="note-link-embed"><div className="note-link" key={el.id}>{el.name}</div></Link>
-          )  
-        })
-        
-        
-        return (
-        <div>
-            <h2>{folderName}</h2>
-            <div className="note-list">{filteredFolder}</div>
-        </div>
-        )
-
+            <div>
+              <h2>{folderName}</h2>
+              <div className="note-list">{filteredFolder(filtered(context))}</div>
+            </div>
+          )
+        }
+        }
+      </NoteContext.Consumer>
+    )
+  }
 }
 
 export default FilteredFolder;

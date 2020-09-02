@@ -1,33 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
+import NoteContext from './NoteContext';
+
+
 
 class NoteList extends React.Component {
 
     render() {
-        const notesArray = this.props.state.notes.map((el, index) => {
+        const notesArray = (cont) => cont.notes.map((el, index) => {
             const timeObj = new Date(el.modified)
             return (
-                <Link key={index} to={`notes/${el.id}`} className="note-link-embed">
-                    <div className="note-link" key={el.id}>
+                <div className="note-link" key={el.id}>
+                    <Link key={index} to={`notes/${el.id}`} className="note-link-embed">
                         <div>
                             {el.name}
                         </div>
                         <div>
-                            Modified {format(timeObj, ['d MMM yyyy'])} 
+                            Modified {format(timeObj, ['d MMM yyyy'])}
+                        </div>
+                </Link>
+                        <div>
+                            <button onClick={() => cont.deleteNote(el.id)}>Delete</button>
                         </div>
                     </div>
-                </Link>
             )
         })
 
         return (
-            <div>
-                <h2>Notes</h2>
-                <ul className="note-list">
-                    {notesArray}
-                </ul>
-            </div>
+            <NoteContext.Consumer>
+                {context => {
+                    return (
+                <div>
+                    <h2>Notes</h2>
+                    <ul className="note-list">
+                        {notesArray(context)}
+                    </ul>
+                    <button>Add</button>
+                </div>
+                    )
+                }}
+            </NoteContext.Consumer>
         )
     }
 }
