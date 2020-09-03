@@ -1,6 +1,7 @@
 import React from 'react';
 import format from 'date-fns/format'
 import NoteContext from './NoteContext';
+import PropTypes from 'prop-types';
 
 
 class Note extends React.Component {
@@ -47,5 +48,9 @@ class Note extends React.Component {
         )
     }
 }
+
+Note.propTypes= {
+    match: PropTypes.object
+  };
 
 export default Note;

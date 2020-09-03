@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NoteContext from './NoteContext';
+import PropTypes from 'prop-types';
 
 class FilteredFolder extends React.Component {
 
@@ -37,5 +38,9 @@ class FilteredFolder extends React.Component {
     )
   }
 }
+
+FilteredFolder.propTypes= {
+  match: PropTypes.object
+};
 
 export default FilteredFolder;
