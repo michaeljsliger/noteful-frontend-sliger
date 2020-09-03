@@ -78,9 +78,7 @@ class App extends React.Component {
           <NoteContext.Provider value={contextValue}>
             <div className="sidebar">
               <Route path='/:notes/' component={GoBack} />
-              <Route path='/' render={(props) => {
-                return <FolderList {...props} />
-              }} />
+              <Route path='/' component={FolderList} />
             </div>
             <div className="content-module">
               <Switch>
