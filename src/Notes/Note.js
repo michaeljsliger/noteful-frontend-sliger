@@ -24,7 +24,7 @@ class Note extends React.Component {
                         return note.folderId === el.id
                     }) || {};
                     const timeObj1 = new Date(note.modified);
-                    console.log(context);
+                    console.log(format(timeObj1, 'd MMM yyyy'));
                     return (
                         <div className="a-note">
                             <div>

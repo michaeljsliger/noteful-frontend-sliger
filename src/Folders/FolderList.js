@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import NoteContext from './NoteContext';
+import NoteContext from '../Notes/NoteContext';
 
 
 class FolderList extends React.Component {

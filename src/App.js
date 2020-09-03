@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Header from './Header';
-import FolderList from './FolderList';
-import NoteList from './NoteList';
-import Note from './Note';
-import GoBack from './GoBack';
-import FilteredFolder from './FilteredFolder';
-import NoteContext from './NoteContext';
+import Header from './Misc/Header';
+import FolderList from './Folders/FolderList';
+import NoteList from './Notes/NoteList';
+import Note from './Notes/Note';
+import GoBack from './Misc/GoBack';
+import FilteredFolder from './Notes/FilteredNoteFolder';
+import NoteContext from './Notes/NoteContext';
 
 
 class App extends React.Component {
@@ -50,6 +50,8 @@ class App extends React.Component {
         const newArrA = this.state.notes.slice(arrInd + 1, this.state.notes.length - 1);
         this.setState({notes: [...newArrB, ...newArrA]})
     }).then(() => {
+      // if the delete button, when clicked in a nested note page, it will have params
+      // so if there are params, relocate to /
       if (params) window.location.href = '/';
     })
       .catch(e => console.error(e))
