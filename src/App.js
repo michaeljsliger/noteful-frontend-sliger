@@ -85,9 +85,7 @@ class App extends React.Component {
             <div className="content-module">
               <Switch>
                 <ErrorBoundary>
-                  <Route exact path='/' render={(props) => {
-                    return <NoteList {...props} />
-                  }} />
+                  <Route exact path='/' component={NoteList} />
                   <Route path='/folder/:folder_id/' render={(props) => {
                     return <FilteredFolder {...props} />
                   }} />
