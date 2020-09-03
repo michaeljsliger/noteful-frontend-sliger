@@ -17,7 +17,7 @@ class NoteList extends React.Component {
                             {el.name}
                         </div>
                         <div>
-                            Modified {format(timeObj, ['d MMM yyyy'])}
+                            Modified {/* format(timeObj, ['d MMM yyyy'] ) */}
                         </div>
                 </Link>
                         <div>
