@@ -44,7 +44,9 @@ main {
   background-color: #7bcaad;
   padding: 8px;
   margin-right: 8px;
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .content-module {
@@ -117,12 +119,24 @@ main {
 
 .go-back-button {
   width: 8vw;
-  height: 8vh;
-  font-size: 60px;
+  height: 35px;
+  font-size: 35px;
   text-decoration: none;
   background-color: gray;
   color: white;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  background: white;
+  color: red;
+}
+
+.addnote-form {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

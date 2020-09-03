@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import format from 'date-fns/format';
 import NoteContext from './NoteContext';
 
 
@@ -10,6 +9,7 @@ class NoteList extends React.Component {
     render() {
         const notesArray = (cont) => cont.notes.map((el, index) => {
             const timeObj = new Date(el.modified)
+            const options = { year: 'numeric', month: 'long', day: 'numeric' }
             return (
                 <div className="note-link" key={el.id}>
                     <Link key={index} to={`notes/${el.id}`} className="note-link-embed">
@@ -17,7 +17,7 @@ class NoteList extends React.Component {
                             {el.name}
                         </div>
                         <div>
-                            Modified {/* format(timeObj, ['d MMM yyyy'] ) */}
+                            Modified {timeObj.toLocaleDateString('en-US', options)}
                         </div>
                 </Link>
                         <div>

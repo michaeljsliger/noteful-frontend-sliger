@@ -8,9 +8,9 @@ import Note from './Notes/Note';
 import GoBack from './Misc/GoBack';
 import FilteredFolder from './Notes/FilteredNoteFolder';
 import NoteContext from './Notes/NoteContext';
-import AddFolder from './Folders/AddFolder/AddFolder';
+import AddFolder from './Folders/AddFolder';
 import AddNote from './Notes/AddNote';
-
+import ErrorBoundary from './ErrorHandlers/ErrorBoundary';
 
 class App extends React.Component {
   state = {
@@ -20,15 +20,15 @@ class App extends React.Component {
 
   componentDidMount() {
     fetch('http://localhost:9090/notes').then(res => {
-      if(res.ok){
+      if (res.ok) {
         return res.json()
       }
-    }).then(json => this.setState({notes: json}));
+    }).then(json => this.setState({ notes: json }));
     fetch('http://localhost:9090/folders').then(res => {
-      if(res.ok){
+      if (res.ok) {
         return res.json()
       }
-    }).then(json => this.setState({folders: json}));
+    }).then(json => this.setState({ folders: json }));
   }
 
   // deleteNote = (id) => {
@@ -37,27 +37,29 @@ class App extends React.Component {
   //   // this.setState({notes: []});
   // }
 
-  deleteNoteAPIRequest = (noteId, params) => {     
+
+
+  deleteNoteAPIRequest = (noteId, params) => {
     fetch(`http://localhost:9090/notes/${noteId}`, {
-       method: 'DELETE',
-       headers: {}
+      method: 'DELETE',
+      headers: {}
     }).then(res => {
-        if (!res.ok) {
-            return res.json().then(error => {throw error})
-        }
-        return res.json()
+      if (!res.ok) {
+        return res.json().then(error => { throw error })
+      }
+      return res.json()
     }).then(data => {
-        const arrInd = this.state.notes.indexOf(this.state.notes.find(el => el.id === noteId))
-        const newArrB = this.state.notes.slice(0, arrInd);
-        const newArrA = this.state.notes.slice(arrInd + 1, this.state.notes.length - 1);
-        this.setState({notes: [...newArrB, ...newArrA]})
+      const arrInd = this.state.notes.indexOf(this.state.notes.find(el => el.id === noteId))
+      const newArrB = this.state.notes.slice(0, arrInd);
+      const newArrA = this.state.notes.slice(arrInd + 1, this.state.notes.length - 1);
+      this.setState({ notes: [...newArrB, ...newArrA] })
     }).then(() => {
       // if the delete button, when clicked in a nested note page, it will have params
       // so if there are params, relocate to /
       if (params) window.location.href = '/';
     })
       .catch(e => console.error(e))
-   }
+  }
 
   render() {
     const contextValue = {
@@ -69,29 +71,30 @@ class App extends React.Component {
     return (
       <div className="App">
         <header>
-         
+
           <Route path='/' component={Header} />
         </header>
         <main>
           <NoteContext.Provider value={contextValue}>
             <div className="sidebar">
-              <Route path='/notes/' component={GoBack} />
-              <Route path='/folder/' component={GoBack} />
+              <Route path='/:notes/' component={GoBack} />
               <Route path='/' render={(props) => {
                 return <FolderList {...props} />
               }} />
             </div>
             <div className="content-module">
               <Switch>
-                <Route exact path='/' render={(props) => {
-                  return <NoteList {...props} />
-                }} />
-                <Route path='/folder/:folder_id/' render={(props) => {
-                  return <FilteredFolder {...props} />
-                }} />
-                <Route path='/notes/:note_id' render={(props) => <Note  {...props} />} />
-                <Route path='/addFolder'component={AddFolder} />
-                <Route path='/addnote'component={AddNote} />
+                <ErrorBoundary>
+                  <Route exact path='/' render={(props) => {
+                    return <NoteList {...props} />
+                  }} />
+                  <Route path='/folder/:folder_id/' render={(props) => {
+                    return <FilteredFolder {...props} />
+                  }} />
+                  <Route path='/notes/:note_id' render={(props) => <Note  {...props} />} />
+                  <Route path='/addFolder' component={AddFolder} />
+                  <Route path='/addnote' component={AddNote} />
+                </ErrorBoundary>
               </Switch>
             </div>
           </NoteContext.Provider>

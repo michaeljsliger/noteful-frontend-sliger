@@ -9,11 +9,11 @@ class FilteredFolder extends React.Component {
 
     const filtered = (context) => context.notes.filter(el => {
       return el.folderId === this.props.match.params.folder_id
-    });
+    }) || [];
 
-    const folderName = (context) => context.state.folders.find(el => {
+    const folderName = (context) => (context.folders.find(el => {
       return el.id === this.props.match.params.folder_id
-    }).name
+    }) || {}).name;
 
     const filteredFolder = (filtered) => filtered.map((el, index) => {
       return (
@@ -27,7 +27,7 @@ class FilteredFolder extends React.Component {
         {context => {
           return (
             <div>
-              <h2>{folderName}</h2>
+              <h2>{folderName(context)}</h2>
               <div className="note-list">{filteredFolder(filtered(context))}</div>
             </div>
           )
