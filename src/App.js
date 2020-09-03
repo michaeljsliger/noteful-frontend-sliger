@@ -8,6 +8,8 @@ import Note from './Notes/Note';
 import GoBack from './Misc/GoBack';
 import FilteredFolder from './Notes/FilteredNoteFolder';
 import NoteContext from './Notes/NoteContext';
+import AddFolder from './Folders/AddFolder/AddFolder';
+import AddNote from './Notes/AddNote';
 
 
 class App extends React.Component {
@@ -67,6 +69,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header>
+         
           <Route path='/' component={Header} />
         </header>
         <main>
@@ -87,6 +90,8 @@ class App extends React.Component {
                   return <FilteredFolder {...props} />
                 }} />
                 <Route path='/notes/:note_id' render={(props) => <Note  {...props} />} />
+                <Route path='/addFolder'component={AddFolder} />
+                <Route path='/addnote'component={AddNote} />
               </Switch>
             </div>
           </NoteContext.Provider>
