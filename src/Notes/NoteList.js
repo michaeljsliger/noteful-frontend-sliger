@@ -36,6 +36,7 @@ class NoteList extends React.Component {
                     <h2>Notes</h2>
                     <ul className="note-list">
                         {notesArray(context)}
+                        {!(notesArray(context)).length ? <p>'Make sure you have the server up'</p> : ''}
                     </ul>
                     <Link to="/addnote"><button>Add Note</button></Link>
                 </div>

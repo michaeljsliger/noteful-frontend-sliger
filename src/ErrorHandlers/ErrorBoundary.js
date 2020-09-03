@@ -2,7 +2,7 @@ import React from 'react';
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
-        super(props); 
+        super(props);
         this.state = {
             hasError: false
         }
@@ -17,9 +17,11 @@ class ErrorBoundary extends React.Component {
     render() {
         if (this.state.hasError) {
             return (
-                <h2>Something broke on our end, oops!</h2>
+                <div>
+                    <h2>Items not properly sourced from server. Check that you have it set up properly.</h2>
+                </div>
             )
-        } 
+        }
         return this.props.children;
     }
 }
