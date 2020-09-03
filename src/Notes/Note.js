@@ -1,5 +1,4 @@
 import React from 'react';
-import format from 'date-fns/format'
 import NoteContext from './NoteContext';
 import PropTypes from 'prop-types';
 
