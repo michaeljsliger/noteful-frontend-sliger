@@ -27,19 +27,7 @@ class AddFolder extends React.Component {
         this.setState({ name: { value: value, touched: true } })
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const { name } = this.state;
-        postObj.body = JSON.stringify({
-            name: name.value,
-            id: cuid()
-        })
-        fetch(`http://localhost:9090/folders`, postObj)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ name: { value: '', touched: false } })
-            })
-    }
+
 
     validateName() {
         const name = this.state.name.value.trim();
@@ -55,7 +43,7 @@ class AddFolder extends React.Component {
 
         return (
             <div>
-                <form className="addnote-form" onSubmit={e => this.handleSubmit(e)}>
+                <form className="addnote-form" onSubmit={e => this.props.handleSubmit(e, this.state, postObj)}>
                     <label htmlFor="folder-name-input">Add a Folder:</label>
                     <input type='text'
                         name="folder-name-input"

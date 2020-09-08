@@ -117,12 +117,13 @@ class AddNote extends React.Component {
                                     {this.state.name.touched && <ErrorForm error={nameError} />}
 
                                     <label htmlFor="addnote-input-content">Content:</label>
-                                    <input type='text' name="addnote-content" id="addnote-content" onChange={event => this.updateContent(event.target.value)} />
+                                    <input type='text' name="addnote-content" id="addnote-content" onChange={event => this.updateContent(event.target.value)}
+                                        required minLength={1}
+                                    />
                                     {this.state.content.touched && <ErrorForm error={contentError} />}
 
                                     <label htmlFor="addnote-input-folder">Select Folder:</label>
-                                    <select name="addnote-folder" id="addnote-folder" onChange={event => this.updateFolder(event.target.value)}>
-                                        <option value="">Select one!</option>
+                                    <select name="addnote-folder" id="addnote-folder" onChange={event => this.updateFolder(event.target.value)} required>
                                         {folderOptions}
                                     </select>
                                     {this.state.folder.touched && <ErrorForm error={folderError} />}

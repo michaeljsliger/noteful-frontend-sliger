@@ -11,6 +11,7 @@ import NoteContext from './Notes/NoteContext';
 import AddFolder from './Folders/AddFolder';
 import AddNote from './Notes/AddNote';
 import ErrorBoundary from './ErrorHandlers/ErrorBoundary';
+import cuid from 'cuid';
 
 class App extends React.Component {
   state = {
@@ -61,6 +62,23 @@ class App extends React.Component {
       .catch(e => console.error(e))
   }
 
+  handleFolderSubmit = (e, state, postObj) => {
+    e.preventDefault();
+    const { name } = state;
+    postObj.body = JSON.stringify({
+        name: name.value,
+        id: cuid()
+    })
+    fetch(`http://localhost:9090/folders`, postObj)
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ folders: [...this.state.folders, data]})
+        }).catch(e => console.error(e));
+}
+
+
+
+
   render() {
     const contextValue = {
       folders: this.state.folders,
@@ -88,7 +106,7 @@ class App extends React.Component {
                     return <FilteredFolder {...props} />
                   }} />
                   <Route path='/notes/:note_id' render={(props) => <Note  {...props} />} />
-                  <Route path='/addFolder' component={AddFolder} />
+                  <Route path='/addFolder' render={props => <AddFolder {...props} handleSubmit={this.handleFolderSubmit} />} />
                   <Route path='/addnote' component={AddNote} />
                 </ErrorBoundary>
               </Switch>
