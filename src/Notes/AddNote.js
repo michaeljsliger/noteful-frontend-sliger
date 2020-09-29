@@ -2,7 +2,9 @@ import React from 'react';
 import NoteContext from './NoteContext';
 import cuid from 'cuid';
 import ErrorForm from '../ErrorHandlers/ErrorForm';
+require('dotenv').config();
 
+const ENDPOINT = 'http://localhost:8000';
 
 const postObj = {
     method: 'POST',
@@ -24,7 +26,7 @@ class AddNote extends React.Component {
                 touched: false
             },
             folder: {
-                value: '',
+                value: null,
                 touched: false
             }
         }
@@ -42,16 +44,19 @@ class AddNote extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const { name, content, folder } = this.state;
-
-        postObj.body = JSON.stringify({
+        let { name, content, folder } = this.state;
+        folder.value = parseInt(folder.value);
+        
+        postObj.body = {
             name: name.value,
             content: content.value,
-            folderId: folder.value,
-            modified: Date.now(),
-            id: cuid()
-        })
-        fetch(`http://localhost:9090/notes`, postObj)
+            folderid: folder.value
+        };
+
+        postObj.body = JSON.stringify(postObj.body);
+
+
+        fetch(`${ENDPOINT}/notes`, postObj)
             .then(res => res.json())
             .then(data => {
                 this.setState({
@@ -64,12 +69,14 @@ class AddNote extends React.Component {
                         touched: false
                     },
                     folder: {
-                        value: '',
+                        value: 0,
                         touched: false
                     }
                 })
-                window.location.href = '/'
-            })
+            }).then(() => {
+                window.location.href = '/';
+                window.location.reload();
+            }).catch(error => console.log(error))
     }
 
     validateName = () => {
@@ -102,6 +109,7 @@ class AddNote extends React.Component {
         return (
             <NoteContext.Consumer>
                 {context => {
+                    console.log(context.folders)
                     const folderOptions = context.folders.map((el, index) => {
                         return (<option key={index} value={el.id}>{el.name}</option>)
                     })
@@ -124,6 +132,7 @@ class AddNote extends React.Component {
 
                                     <label htmlFor="addnote-input-folder">Select Folder:</label>
                                     <select name="addnote-folder" id="addnote-folder" onChange={event => this.updateFolder(event.target.value)} required>
+                                        <option>None</option>
                                         {folderOptions}
                                     </select>
                                     {this.state.folder.touched && <ErrorForm error={folderError} />}

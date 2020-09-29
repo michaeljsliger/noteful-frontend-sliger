@@ -17,10 +17,10 @@ class Note extends React.Component {
             <NoteContext.Consumer>
                 {(context) => {
                     const note = context.notes.find(el => {
-                        return el.id === this.props.match.params.note_id
+                        return parseInt(el.id) === parseInt(this.props.match.params.note_id)
                     }) || {};
                     const fileName = context.folders.find(el => {
-                        return note.folderId === el.id
+                        return note.folderid === el.id
                     }) || {};
                     const timeObj1 = new Date(note.modified);
                     const options = { year: 'numeric', month: 'long', day: 'numeric' }

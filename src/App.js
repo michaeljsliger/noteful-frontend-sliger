@@ -13,6 +13,8 @@ import AddNote from './Notes/AddNote';
 import ErrorBoundary from './ErrorHandlers/ErrorBoundary';
 import cuid from 'cuid';
 
+const ENDPOINT = 'http://localhost:8000';
+
 class App extends React.Component {
   state = {
     notes: [],
@@ -20,12 +22,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:9090/notes').then(res => {
+    fetch(`${ENDPOINT}/notes`).then(res => {
       if (res.ok) {
         return res.json()
       }
     }).then(json => this.setState({ notes: json }));
-    fetch('http://localhost:9090/folders').then(res => {
+    fetch(`${ENDPOINT}/folders`).then(res => {
       if (res.ok) {
         return res.json()
       }
@@ -41,14 +43,14 @@ class App extends React.Component {
 
 
   deleteNoteAPIRequest = (noteId, params) => {
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+    fetch(`${ENDPOINT}/notes/${noteId}`, {
       method: 'DELETE',
       headers: {}
     }).then(res => {
       if (!res.ok) {
         return res.json().then(error => { throw error })
       }
-      return res.json()
+      return res
     }).then(data => {
       const arrInd = this.state.notes.indexOf(this.state.notes.find(el => el.id === noteId))
       const newArrB = this.state.notes.slice(0, arrInd);
@@ -69,7 +71,7 @@ class App extends React.Component {
         name: name.value,
         id: cuid()
     })
-    fetch(`http://localhost:9090/folders`, postObj)
+    fetch(`${ENDPOINT}/folders`, postObj)
         .then(res => res.json())
         .then(data => {
             this.setState({ folders: [...this.state.folders, data]})

@@ -8,12 +8,14 @@ class FilteredFolder extends React.Component {
   render() {
 
 
-    const filtered = (context) => context.notes.filter(el => {
-      return el.folderId === this.props.match.params.folder_id
-    }) || [];
+    const filtered = (context) => {
+      return context.notes.filter(el => {
+        return parseInt(el.folderid) === parseInt(this.props.match.params.folder_id)
+      });
+    }
 
     const folderName = (context) => (context.folders.find(el => {
-      return el.id === this.props.match.params.folder_id
+      return parseInt(el.id) === parseInt(this.props.match.params.folder_id)
     }) || {}).name;
 
     const filteredFolder = (filtered) => filtered.map((el, index) => {
@@ -26,6 +28,7 @@ class FilteredFolder extends React.Component {
     return (
       <NoteContext.Consumer>
         {context => {
+          console.log(filtered(context));
           return (
             <div>
               <h2>{folderName(context)}</h2>
